@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="library.system.dao.RolePrivilegeMapper">
+    <resultMap id="rolePrivilegeMap" type="library.system.dto.RolePrivilege">
+        <result property="roleId" column="role_id"/>
+        <result property="privilegeId" column="privilege_id"/>
+    </resultMap>
+
+    <insert id="insertOne">
+        insert into sys_role_privilege values (#{roleId} , #{privilegeId})
+    </insert>
+
+
+</mapper>

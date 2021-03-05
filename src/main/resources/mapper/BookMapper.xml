@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="library.system.dao.BookMapper">
+    <resultMap id="bookMap" type="library.system.dto.Book">
+        <result property="bookName" column="book_name"/>
+        <result property="bookCode" column="book_code"/>
+        <result property="bookPublisher" column="book_publisher"/>
+        <result property="bookType" column="book_type"/>
+    </resultMap>
+
+    <select id="selectAllBooks" resultMap="bookMap">
+        select * from sys_book
+    </select>
+
+    <insert id="insertOneBook" keyProperty="id" useGeneratedKeys="false">
+        insert into sys_book(book_name , book_code , book_publisher , book_type)
+        values(#{bookName} , #{bookCode} , #{bookPublisher} , #{bookType})
+
+    </insert>
+
+    <insert id="insertManyBooks">
+        insert into sys_book (book_name , book_code , book_publisher , book_type)
+        values
+        <foreach collection="list" item="book" index="index" separator=",">
+            (#{book.bookName} , #{book.bookCode} , #{book.bookPublisher} , #{book.bookType} )
+        </foreach>
+    </insert>
+
+
+</mapper>

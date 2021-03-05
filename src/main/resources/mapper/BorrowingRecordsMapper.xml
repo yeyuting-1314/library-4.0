@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="library.system.dao.BorrowingRecordsMapper">
+    <resultMap id="borrowingRecordsMap" type="library.system.dto.BorrowingRecords">
+        <result property="userId" column="user_id"/>
+        <result property="bookCode" column="book_code"/>
+        <result property="operateTime" column="operate_time"/>
+        <result property="borrowing_status" column="borrowingStatus"/>
+    </resultMap>
+
+    <select id="selectAllBorrowingRecords" resultMap="borrowingRecordsMap">
+        select * from borrowing_records
+    </select>
+
+    <insert id="borrowBooks">
+        insert into borrowing_records
+        (user_id , book_code , borrowing_status)
+        values
+        (#{userId} , #{bookCode} , #{borrowingStatus})
+    </insert>
+
+    <insert id="returnBooks">
+        insert into borrowing_records
+        (user_id , book_code , borrowing_status)
+        values
+        (#{userId} , #{bookCode} , #{borrowingStatus})
+    </insert>
+
+</mapper>

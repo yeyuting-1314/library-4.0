@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="library.system.dao.UserMapper">
+    <resultMap id="userMap" type="library.system.dto.SysUser">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userId" column="user_id"/>
+        <result property="userPassword" column="user_password"/>
+    </resultMap>
+    
+    <resultMap id="userMap1" extends="userMap" type="library.system.dto.SysUser">
+        <collection property="sysRole" ofType="library.system.dto.SysRole">
+            <result property="id" column="id"/>
+            <result property="roleName" column="role_name"/>
+            <result property="role" column="role"/>
+        </collection>
+    </resultMap>
+
+
+    <resultMap id="userMap2" extends="userMap" type="library.system.dto.SysUser">
+        <collection property="sysRole" ofType="library.system.dto.SysRole">
+            <result property="id" column="id"/>
+            <result property="roleName" column="role_name"/>
+            <result property="role" column="role"/>
+        </collection>
+        <collection property="privilegeList" ofType="library.system.dto.SysPrivilege">
+            <result property="id" column="id "/>
+            <result property="privilegeName" column="privilege_name"/>
+            <result property="privilegeUrl" column="privilege_url"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertOneUser">
+        insert into sys_user
+        (user_name , user_id ,user_password)
+        values
+        (#{userName} , #{userId} , #{userPassword})
+    </insert>
+
+    <select id="selectUserByUserId" resultMap="userMap">
+        select * from sys_user where user_id = #{userId}
+    </select>
+
+    <select id="selectUserByUserId1" resultMap="userMap">
+        select * from sys_user where user_id = #{userId}
+    </select>
+
+    <select id="selectUserAndRoleByUserName1" resultType="library.system.dto.SysUser">
+        select
+        su.user_id ,
+        su.user_name ,
+        su.user_password ,
+        sr.id as "sysRole.id" ,
+        sr.role_name  as "sysRole.roleName" ,
+        sr.role as "sysRole.role"
+        from sys_user su
+        inner join sys_user_role sur on su.user_id = sur.user_id
+        inner join sys_role sr on sur.role_id = sr.id
+        where su.user_name = #{userName}
+    </select>
+
+    <select id="selectUserAndRoleByUserName" resultMap="userMap1">
+        select
+        su.user_id ,
+        su.user_name ,
+        su.user_password ,
+        sr.id ,
+        sr.role_name  ,
+        sr.role
+        from sys_user su
+        inner join sys_user_role sur on su.user_id = sur.user_id
+        inner join sys_role sr on sur.role_id = sr.id
+        where su.user_name = #{userName}
+    </select>
+
+    <select id="selectUserByUserName" resultMap="userMap">
+        select * from sys_user where user_name = #{userName}
+    </select>
+    
+    <select id="selectUserAndRoleAndPrivilegeByUserName" resultMap="userMap2" >
+        select
+        su.user_id ,
+        su.user_name ,
+        su.user_password ,
+        sr.id ,
+        sr.role_name  ,
+        sr.role ,
+        sp.id ,
+        sp.privilege_name ,
+        sp.privilege_url
+        from sys_user su
+        inner join sys_user_role sur on su.user_id = sur.user_id
+        inner join sys_role sr on sur.role_id = sr.id
+        inner join library.sys_role_privilege srp on srp.role_id = sr.id
+        inner join library.sys_privilege sp on srp.privilege_id  = sp.id
+        where su.user_name = #{userName}
+    </select>
+
+    <select id="selectUserIdByUserName" resultMap="userMap">
+        select user_id from sys_user where user_name = #{userName}
+    </select>
+
+
+</mapper>

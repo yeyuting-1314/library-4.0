@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="library.system.dao.UserRoleMapper">
+    <resultMap id="userRoleMap" type="library.system.dto.SysUserRole">
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+
+    <insert id="insertOne">
+        insert into sys_user_role values(#{userId} , #{roleId})
+    </insert>
+
+    <select id="selectRoleIdByUserId" resultMap="userRoleMap">
+        select * from sys_user_role where user_id = #{userId}
+    </select>
+
+</mapper>
